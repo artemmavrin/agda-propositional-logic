@@ -1,0 +1,3 @@
+name: agda-propositional-logic
+include: src
+flags: --exact-split --no-import-sorts --safe --without-K
