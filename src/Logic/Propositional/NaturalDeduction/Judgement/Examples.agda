@@ -1,22 +1,25 @@
 module Logic.Propositional.NaturalDeduction.Judgement.Examples where
 
-open import Agda.Builtin.Nat using () renaming (Nat to ℕ)
+open import Agda.Builtin.Sigma using () renaming (_,_ to _∙_)
+open import Agda.Primitive using (Level) renaming (Set to Type)
 
-open import Logic.Propositional.Syntax (ℕ)
-open import Logic.Propositional.NaturalDeduction.Judgement.Base (ℕ)
+open import Logic.Propositional.Syntax
+open import Logic.Propositional.NaturalDeduction.Judgement.Base
 
 private
   variable
-    A B C : Formula
+    a : Level
+    A : Type a
+    ϕ ψ θ : Formula A
 
-  _ : ∅ ⊢ A ⊃ A
-  _ = ⊃I (ax ∈Z)
+  _ : * ⊢ ϕ ⊃ ϕ
+  _ = _ ∙ ⊃-intro (axiom ∈Z)
 
-  _ : ∅ , A , A ⊃ B ⊢ B
-  _ = ⊃E (ax ∈Z) (ax (∈S ∈Z))
+  _ : ϕ ⊃ ψ , ϕ , * ⊢ ψ
+  _ = _ ∙ ⊃-elim (axiom ∈Z) (axiom (∈S ∈Z))
 
-  _ : ∅ , A ⊃ B , A ⊢ B
-  _ = ⊃E (ax (∈S ∈Z)) (ax ∈Z)
+  _ : ϕ , ϕ ⊃ ψ , * ⊢ ψ
+  _ = _ ∙ ⊃-elim (axiom (∈S ∈Z)) (axiom ∈Z)
 
-  _ : ∅ , A ⊃ B , B ⊃ C ⊢ A ⊃ C
-  _ = ⊃I (⊃E (ax (∈S ∈Z)) (⊃E (ax (∈S ∈S ∈Z)) (ax ∈Z)))
+  _ : ψ ⊃ θ , ϕ ⊃ ψ , * ⊢ ϕ ⊃ θ
+  _ = _ ∙ ⊃-intro (⊃-elim (axiom (∈S ∈Z)) (⊃-elim (axiom (∈S ∈S ∈Z)) (axiom ∈Z)))

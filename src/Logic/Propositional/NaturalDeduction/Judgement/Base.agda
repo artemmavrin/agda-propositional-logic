@@ -1,49 +1,39 @@
+module Logic.Propositional.NaturalDeduction.Judgement.Base where
+
+open import Agda.Builtin.Sigma using (Σ)
 open import Agda.Primitive using (Level) renaming (Set to Type)
 
-module Logic.Propositional.NaturalDeduction.Judgement.Base {a : Level} (Atom : Type a) where
+open import Data.Nat using (ℕ)
+open import Logic.Propositional.Syntax
 
-open import Logic.Propositional.Syntax (Atom)
+infix 4 _⊢_ _⊢_[_]
 
-private
-  variable
-    A B : Formula
-    Γ Δ : Context
+data Shape : Type where
+  𝟘 : Shape
+  _⊕_ : Shape → Shape → Shape
+  𝕤𝕦𝕔 : Shape → Shape
 
-infix 4 _⊢_
+-- Shape-aware derivation trees; we track shape information to ensure termination
 
-data _⊢_ : Context → Formula → Type a where
-  ax :
-      A ∈ Γ
-      -----
-    → Γ ⊢ A
+data _⊢_[_] {a : Level} {A : Type a} : {n : ℕ} → Context A n → Formula A → Shape → Type a where
+  axiom : {ϕ : Formula A} {n : ℕ} {Γ : Context A n}
+    → ϕ ∈ Γ
+      -----------
+    → Γ ⊢ ϕ [ 𝟘 ]
 
-  ⊃I :
-      Γ , A ⊢ B
-      ---------
-    → Γ ⊢ A ⊃ B
+  ⊃-intro : {ϕ ψ : Formula A} {n : ℕ} {Γ : Context A n} {s : Shape}
+    → ϕ , Γ ⊢ ψ [ s ]
+      -------------------
+    → Γ ⊢ ϕ ⊃ ψ [ 𝕤𝕦𝕔 s ]
 
-  ⊃E :
-      Γ ⊢ A ⊃ B
-    → Γ ⊢ A
-      ---------
-    → Γ ⊢ B
+  ⊃-elim : {ϕ ψ : Formula A} {n : ℕ} {Γ : Context A n} {s t : Shape}
+    → Γ ⊢ ϕ ⊃ ψ [ s ]
+    → Γ ⊢ ϕ [ t ]
+      ---------------
+    → Γ ⊢ ψ [ s ⊕ t ]
 
-struct :
-    Γ ⊆ Δ
-  → Γ ⊢ A
-    -----
-  → Δ ⊢ A
-struct Γ⊆Δ (ax A∈Γ)       = ax (⊆E Γ⊆Δ A∈Γ)
-struct Γ⊆Δ (⊃I Γ,A⊢B)     = ⊃I (struct (weakening-is-monotonic Γ⊆Δ) Γ,A⊢B)
-struct Γ⊆Δ (⊃E Γ⊢A⊃B Γ⊢A) = ⊃E (struct Γ⊆Δ Γ⊢A⊃B) (struct Γ⊆Δ Γ⊢A)
+shape-of : {a : Level} {A : Type a} {n : ℕ} {Γ : Context A n} {ϕ : Formula A} {s : Shape} → Γ ⊢ ϕ [ s ] → Shape
+shape-of {s = s} _ = s
 
-{-
-trans :
-    Γ ⊢ A
-  → Γ , A ⊢ B
-    ---------
-  → Γ ⊢ B
-trans (ax p) q = struct (⊆S ⊆-refl p) q
-trans (⊃I Γ,C⊢D) Γ,C⊃D⊢B = _
-trans _ _ = _
--}
+_⊢_ : {a : Level} {A : Type a} {n : ℕ} → Context A n → Formula A → Type a
+Γ ⊢ ϕ = Σ Shape (Γ ⊢ ϕ [_])

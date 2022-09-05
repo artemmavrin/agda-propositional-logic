@@ -1,9 +1,9 @@
-open import Agda.Primitive using (Level) renaming (Set to Type)
+module Logic.Propositional.Syntax.Formula where
 
-module Logic.Propositional.Syntax.Formula {a : Level} (Atom : Type a) where
+open import Agda.Primitive using (Level) renaming (Set to Type)
 
 infixr 7 _⊃_
 
-data Formula : Type a where
-  ⌈_⌉ : Atom → Formula
-  _⊃_ : Formula → Formula → Formula
+data Formula {a : Level} (A : Type a) : Type a where
+  ⌈_⌉ : A → Formula A
+  _⊃_ : Formula A → Formula A → Formula A
