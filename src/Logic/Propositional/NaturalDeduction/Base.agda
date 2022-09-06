@@ -1,9 +1,9 @@
 module Logic.Propositional.NaturalDeduction.Base where
 
+open import Agda.Builtin.Nat using () renaming (Nat to ℕ) public
 open import Agda.Builtin.Sigma using (Σ)
 open import Agda.Primitive using (Level) renaming (Set to Type)
 
-open import Data.Nat using (ℕ)
 open import Logic.Propositional.Syntax
 
 infix 4 _⊢_ _⊢_[_]

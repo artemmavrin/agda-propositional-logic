@@ -1,9 +1,9 @@
 module Logic.Propositional.NaturalDeduction.AdmissibleRules where
 
+open import Agda.Builtin.Nat using () renaming (Nat to ℕ) public
 open import Agda.Builtin.Sigma using (Σ; fst; snd) renaming (_,_ to _∙_)
 open import Agda.Primitive using (Level) renaming (Set to Type)
 
-open import Data.Nat
 open import Logic.Propositional.NaturalDeduction.Base
 open import Logic.Propositional.Syntax
 

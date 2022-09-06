@@ -1,8 +1,8 @@
 module Logic.Propositional.Syntax.Context.Base where
 
+open import Agda.Builtin.Nat using (suc; _+_) renaming (Nat to ℕ) public
 open import Agda.Primitive using (Level) renaming (Set to Type)
 
-open import Data.Nat using (ℕ; suc; _+_)
 open import Logic.Propositional.Syntax.Formula
 
 infixr 6 _,_
