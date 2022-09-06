@@ -1,10 +1,10 @@
-module Logic.Propositional.NaturalDeduction.Judgement.AdmissibleRules where
+module Logic.Propositional.NaturalDeduction.AdmissibleRules where
 
 open import Agda.Builtin.Sigma using (Σ; fst; snd) renaming (_,_ to _∙_)
 open import Agda.Primitive using (Level) renaming (Set to Type)
 
 open import Data.Nat
-open import Logic.Propositional.NaturalDeduction.Judgement.Base
+open import Logic.Propositional.NaturalDeduction.Base
 open import Logic.Propositional.Syntax
 
 private
@@ -51,4 +51,4 @@ subst : {a : Level} {A : Type a} {ϕ ψ : Formula A} {m n : ℕ} {Γ : Context A
 subst {Γ = Γ} {Δ = Δ} Γ⊢ϕ Δ,ϕ,Γ⊢ψ = _ ∙ snd (subst-impl Δ,Γ⊢ϕ ϕ,Δ,Γ⊢ψ)  where
   Δ,Γ⊢ϕ   = snd (struct (⊆-concat-front {Ξ = Δ} ⊆-refl) Γ⊢ϕ)
   ϕ,Δ,Γ⊢ψ = snd (struct (⊆-swap-middle-to-front {Δ = Γ}) Δ,ϕ,Γ⊢ψ)
-  
+

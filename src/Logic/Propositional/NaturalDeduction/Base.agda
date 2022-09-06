@@ -1,4 +1,4 @@
-module Logic.Propositional.NaturalDeduction.Judgement.Base where
+module Logic.Propositional.NaturalDeduction.Base where
 
 open import Agda.Builtin.Sigma using (Σ)
 open import Agda.Primitive using (Level) renaming (Set to Type)

@@ -1,10 +1,10 @@
-module Logic.Propositional.NaturalDeduction.Judgement.Examples where
+module Logic.Propositional.NaturalDeduction.Examples where
 
 open import Agda.Builtin.Sigma using () renaming (_,_ to _∙_)
 open import Agda.Primitive using (Level) renaming (Set to Type)
 
 open import Logic.Propositional.Syntax
-open import Logic.Propositional.NaturalDeduction.Judgement.Base
+open import Logic.Propositional.NaturalDeduction.Base
 
 private
   variable
