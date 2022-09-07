@@ -11,10 +11,9 @@ private
     a : Level
     A : Type a
     ϕ ψ : Formula A
-    m n k : ℕ
+    m n : ℕ
     Γ : Context A m
     Δ : Context A n
-    Ξ : Context A k
 
 ⊆-elim : Γ ⊆ Δ → ϕ ∈ Γ → ϕ ∈ Δ
 ⊆-elim (⊆S _ q) ∈Z     = q
