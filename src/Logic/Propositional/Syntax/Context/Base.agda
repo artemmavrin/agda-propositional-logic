@@ -6,17 +6,12 @@ open import Agda.Primitive using (Level) renaming (Set to Type)
 open import Logic.Propositional.Syntax.Formula
 
 infixr 6 _,_
-infixr 5 _,,_
 infix 4 _∈_ _⊆_
 infixr 4 ∈S_
 
 data Context {a : Level} (A : Type a) : ℕ → Type a where
   *   : Context A 0
   _,_ : {n : ℕ} → Formula A → Context A n → Context A (suc n)
-
-_,,_ : {a : Level} {A : Type a} {m n : ℕ} → Context A m → Context A n → Context A (m + n)
-* ,, Δ     = Δ
-ϕ , Γ ,, Δ = ϕ , (Γ ,, Δ)
 
 data _∈_ {a : Level} {A : Type a} : Formula A → {n : ℕ} → Context A n → Type a where
   ∈Z  : {ϕ : Formula A} {n : ℕ} {Γ : Context A n} → ϕ ∈ ϕ , Γ
