@@ -10,7 +10,7 @@ private
   variable
     a : Level
     A : Type a
-    ϕ ψ θ : Formula A
+    ϕ ψ θ α β : Formula A
 
   _ : * ⊢ ϕ ⊃ ϕ
   _ = _ ∙ ⊃-intro (axiom ∈Z)
@@ -23,3 +23,15 @@ private
 
   _ : ψ ⊃ θ , ϕ ⊃ ψ , * ⊢ ϕ ⊃ θ
   _ = _ ∙ ⊃-intro (⊃-elim (axiom (∈S ∈Z)) (⊃-elim (axiom (∈S ∈S ∈Z)) (axiom ∈Z)))
+
+  _ : ϕ , ψ , * ⊢ ϕ ∧ ψ
+  _ = _ ∙ ∧-intro (axiom ∈Z) (axiom (∈S ∈Z))
+
+  _ : ϕ ∧ ψ , * ⊢ ψ ∧ ϕ
+  _ = _ ∙ ∧-intro (∧-elimʳ (axiom ∈Z)) (∧-elimˡ (axiom ∈Z))
+
+  _ : ϕ ∧ ψ , ϕ ⊃ α , ψ ⊃ β , * ⊢ α ∧ β
+  _ = _ ∙ ∧-intro (⊃-elim (axiom (∈S ∈Z)) (∧-elimˡ (axiom ∈Z))) (⊃-elim (axiom (∈S ∈S ∈Z)) (∧-elimʳ (axiom ∈Z)))
+
+  _ : ϕ , * ⊢ ϕ ∧ ϕ
+  _ = _ ∙ ∧-intro (axiom ∈Z) (axiom ∈Z)
