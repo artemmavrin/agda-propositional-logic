@@ -24,7 +24,7 @@ struct :
     -----------
   → Δ ⊢ ϕ [ s ]
 struct p (axiom q)     = axiom (⊆-elim p q)
-struct p ⊤-intro       = ⊤-intro
+struct _ ⊤-intro       = ⊤-intro
 struct p (⊃-intro π)   = ⊃-intro (struct (⊆-extend p) π)
 struct p (⊃-elim π ρ)  = ⊃-elim (struct p π) (struct p ρ)
 struct p (∧-intro π ρ) = ∧-intro (struct p π) (struct p ρ)
