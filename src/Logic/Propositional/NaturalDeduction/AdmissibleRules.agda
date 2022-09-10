@@ -24,7 +24,7 @@ struct :
     -----------
   → Δ ⊢ ϕ [ s ]
 struct Γ⊆Δ Γ⊢ϕ@(axiom ϕ∈Γ)         = axiom (⊆-elim Γ⊆Δ ϕ∈Γ)
-struct Γ⊆Δ Γ⊢⊤@(⊤-intro Γ⊢ψ)       = ⊤-intro (struct Γ⊆Δ Γ⊢ψ)
+struct Γ⊆Δ Γ⊢⊤@(⊤-intro)           = ⊤-intro
 struct Γ⊆Δ Γ⊢ϕ⊃ψ@(⊃-intro ϕ,Γ⊢ψ)   = ⊃-intro (struct (⊆-extend Γ⊆Δ) ϕ,Γ⊢ψ)
 struct Γ⊆Δ Γ⊢ϕ@(⊃-elim Γ⊢ψ⊃ϕ Γ⊢ψ)  = ⊃-elim (struct Γ⊆Δ Γ⊢ψ⊃ϕ) (struct Γ⊆Δ Γ⊢ψ)
 struct Γ⊆Δ Γ⊢ϕ∧ϕ@(∧-intro Γ⊢ϕ Γ⊢ψ) = ∧-intro (struct Γ⊆Δ Γ⊢ϕ) (struct Γ⊆Δ Γ⊢ψ)
@@ -39,7 +39,7 @@ subst :
   → Γ ⊢ ψ
 subst Γ⊢ϕ ϕ,Γ⊢ψ@(axiom ∈Z)              = [ _ , Γ⊢ϕ ]
 subst Γ⊢ϕ ϕ,Γ⊢ψ@(axiom (∈S ψ∈Γ))        = [ _ , axiom ψ∈Γ ]
-subst Γ⊢ϕ ϕ,Γ⊢⊤@(⊤-intro ϕ,Γ⊢θ)         = [ _ , ⊤-intro (snd (subst Γ⊢ϕ ϕ,Γ⊢θ)) ]
+subst Γ⊢ϕ ϕ,Γ⊢⊤@(⊤-intro)               = [ _ , ⊤-intro ]
 subst Γ⊢ϕ ϕ,Γ⊢α⊃β@(⊃-intro α,ϕ,Γ⊢β)     = [ _ , ⊃-intro (snd (subst α,Γ⊢ϕ ϕ,α,Γ⊢β)) ] where
   α,Γ⊢ϕ   = struct (⊆-append ⊆-refl) Γ⊢ϕ
   ϕ,α,Γ⊢β = struct ⊆-swap α,ϕ,Γ⊢β
