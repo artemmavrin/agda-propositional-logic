@@ -23,13 +23,13 @@ struct :
   → Γ ⊢ ϕ [ s ]
     -----------
   → Δ ⊢ ϕ [ s ]
-struct Γ⊆Δ Γ⊢ϕ@(axiom ϕ∈Γ)         = axiom (⊆-elim Γ⊆Δ ϕ∈Γ)
-struct Γ⊆Δ Γ⊢⊤@(⊤-intro)           = ⊤-intro
-struct Γ⊆Δ Γ⊢ϕ⊃ψ@(⊃-intro ϕ,Γ⊢ψ)   = ⊃-intro (struct (⊆-extend Γ⊆Δ) ϕ,Γ⊢ψ)
-struct Γ⊆Δ Γ⊢ϕ@(⊃-elim Γ⊢ψ⊃ϕ Γ⊢ψ)  = ⊃-elim (struct Γ⊆Δ Γ⊢ψ⊃ϕ) (struct Γ⊆Δ Γ⊢ψ)
-struct Γ⊆Δ Γ⊢ϕ∧ϕ@(∧-intro Γ⊢ϕ Γ⊢ψ) = ∧-intro (struct Γ⊆Δ Γ⊢ϕ) (struct Γ⊆Δ Γ⊢ψ)
-struct Γ⊆Δ Γ⊢ϕ@(∧-elimˡ Γ⊢ϕ∧ψ)     = ∧-elimˡ (struct Γ⊆Δ Γ⊢ϕ∧ψ)
-struct Γ⊆Δ Γ⊢ψ@(∧-elimʳ Γ⊢ϕ∧ψ)     = ∧-elimʳ (struct Γ⊆Δ Γ⊢ϕ∧ψ)
+struct p (axiom q)     = axiom (⊆-elim p q)
+struct p ⊤-intro       = ⊤-intro
+struct p (⊃-intro π)   = ⊃-intro (struct (⊆-extend p) π)
+struct p (⊃-elim π ρ)  = ⊃-elim (struct p π) (struct p ρ)
+struct p (∧-intro π ρ) = ∧-intro (struct p π) (struct p ρ)
+struct p (∧-elimˡ π)   = ∧-elimˡ (struct p π)
+struct p (∧-elimʳ π)   = ∧-elimʳ (struct p π)
 
 -- Substitution rule
 subst :
@@ -37,13 +37,11 @@ subst :
   → ϕ , Γ ⊢ ψ [ t ]
     ---------------
   → Γ ⊢ ψ
-subst Γ⊢ϕ ϕ,Γ⊢ψ@(axiom ∈Z)              = [ _ , Γ⊢ϕ ]
-subst Γ⊢ϕ ϕ,Γ⊢ψ@(axiom (∈S ψ∈Γ))        = [ _ , axiom ψ∈Γ ]
-subst Γ⊢ϕ ϕ,Γ⊢⊤@(⊤-intro)               = [ _ , ⊤-intro ]
-subst Γ⊢ϕ ϕ,Γ⊢α⊃β@(⊃-intro α,ϕ,Γ⊢β)     = [ _ , ⊃-intro (snd (subst α,Γ⊢ϕ ϕ,α,Γ⊢β)) ] where
-  α,Γ⊢ϕ   = struct (⊆-append ⊆-refl) Γ⊢ϕ
-  ϕ,α,Γ⊢β = struct ⊆-swap α,ϕ,Γ⊢β
-subst Γ⊢ϕ ϕ,Γ⊢ψ@(⊃-elim ϕ,Γ⊢θ⊃ψ ϕ,Γ⊢θ)  = [ _ , ⊃-elim (snd (subst Γ⊢ϕ ϕ,Γ⊢θ⊃ψ)) (snd (subst Γ⊢ϕ ϕ,Γ⊢θ)) ]
-subst Γ⊢ϕ ϕ,Γ⊢α∧β@(∧-intro ϕ,Γ⊢α ϕ,Γ⊢β) = [ _ , ∧-intro (snd (subst Γ⊢ϕ ϕ,Γ⊢α)) (snd (subst Γ⊢ϕ ϕ,Γ⊢β)) ]
-subst Γ⊢ϕ ϕ,Γ⊢α@(∧-elimˡ ϕ,Γ⊢α∧β)       = [ _ , ∧-elimˡ (snd (subst Γ⊢ϕ ϕ,Γ⊢α∧β)) ]
-subst Γ⊢ϕ ϕ,Γ⊢β@(∧-elimʳ ϕ,Γ⊢α∧β)       = [ _ , ∧-elimʳ (snd (subst Γ⊢ϕ ϕ,Γ⊢α∧β)) ]
+subst π (axiom ∈Z)     = [ _ , π ]
+subst _ (axiom (∈S p)) = [ _ , axiom p ]
+subst _ ⊤-intro        = [ _ , ⊤-intro ]
+subst π (⊃-intro ρ)    = [ _ , ⊃-intro (snd (subst (struct (⊆-append ⊆-refl) π) (struct ⊆-swap ρ))) ]
+subst π (⊃-elim ρ σ)   = [ _ , ⊃-elim (snd (subst π ρ)) (snd (subst π σ)) ]
+subst π (∧-intro ρ σ)  = [ _ , ∧-intro (snd (subst π ρ)) (snd (subst π σ)) ]
+subst π (∧-elimˡ ρ)    = [ _ , ∧-elimˡ (snd (subst π ρ)) ]
+subst π (∧-elimʳ ρ)    = [ _ , ∧-elimʳ (snd (subst π ρ)) ]
