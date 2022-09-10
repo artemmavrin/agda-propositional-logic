@@ -44,5 +44,11 @@ data _⊢_[_] {a : Level} {A : Type a} : {n : ℕ} → Context A n → Formula A
       ---------------
     → Γ ⊢ ψ [ s ⊕ t ]
 
+  ∧-intro :
+      Γ ⊢ ϕ [ s ]
+    → Γ ⊢ ψ [ t ]
+      -------------------
+    → Γ ⊢ ϕ ∧ ψ [ s ⊕ t ]
+
 _⊢_ : {a : Level} {A : Type a} {n : ℕ} → Context A n → Formula A → Type a
 Γ ⊢ ϕ = Σ Shape (Γ ⊢ ϕ [_])

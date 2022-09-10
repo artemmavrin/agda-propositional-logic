@@ -19,20 +19,20 @@ private
 
 -- Structural rule, including weakening, contraction, and exchange
 struct : Γ ⊆ Δ → Γ ⊢ ϕ [ s ] → Δ ⊢ ϕ [ s ]
-struct Γ⊆Δ Γ⊢ϕ@(axiom ϕ∈Γ)        = axiom (⊆-elim Γ⊆Δ ϕ∈Γ)
-struct Γ⊆Δ Γ⊢⊤@(⊤-intro Γ⊢ψ)      = ⊤-intro (struct Γ⊆Δ Γ⊢ψ)
-struct Γ⊆Δ Γ⊢ϕ⊃ψ@(⊃-intro ϕ,Γ⊢ψ)  = ⊃-intro (struct (⊆-extend Γ⊆Δ) ϕ,Γ⊢ψ)
-struct Γ⊆Δ Γ⊢ϕ@(⊃-elim Γ⊢ψ⊃ϕ Γ⊢ψ) = ⊃-elim (struct Γ⊆Δ Γ⊢ψ⊃ϕ) (struct Γ⊆Δ Γ⊢ψ)
+struct Γ⊆Δ Γ⊢ϕ@(axiom ϕ∈Γ)         = axiom (⊆-elim Γ⊆Δ ϕ∈Γ)
+struct Γ⊆Δ Γ⊢⊤@(⊤-intro Γ⊢ψ)       = ⊤-intro (struct Γ⊆Δ Γ⊢ψ)
+struct Γ⊆Δ Γ⊢ϕ⊃ψ@(⊃-intro ϕ,Γ⊢ψ)   = ⊃-intro (struct (⊆-extend Γ⊆Δ) ϕ,Γ⊢ψ)
+struct Γ⊆Δ Γ⊢ϕ@(⊃-elim Γ⊢ψ⊃ϕ Γ⊢ψ)  = ⊃-elim (struct Γ⊆Δ Γ⊢ψ⊃ϕ) (struct Γ⊆Δ Γ⊢ψ)
+struct Γ⊆Δ Γ⊢ϕ∧ϕ@(∧-intro Γ⊢ϕ Γ⊢ψ) = ∧-intro (struct Γ⊆Δ Γ⊢ϕ) (struct Γ⊆Δ Γ⊢ψ)
 
 -- Cut rule
 cut : Γ ⊢ ϕ [ s ] → ϕ , Γ ⊢ ψ [ t ] → Γ ⊢ ψ
-cut Γ⊢ϕ ϕ,Γ⊢ψ@(axiom ∈Z)             = [ _ , Γ⊢ϕ ]
-cut Γ⊢ϕ ϕ,Γ⊢ψ@(axiom (∈S ψ∈Γ))       = [ _ , axiom ψ∈Γ ]
-cut Γ⊢ϕ ϕ,Γ⊢⊤@(⊤-intro ϕ,Γ⊢θ)        = [ _ , ⊤-intro (snd (cut Γ⊢ϕ ϕ,Γ⊢θ)) ]
-cut Γ⊢ϕ ϕ,Γ⊢α⊃β@(⊃-intro α,ϕ,Γ⊢β)    = [ _ , ⊃-intro α,Γ⊢β ] where
+cut Γ⊢ϕ ϕ,Γ⊢ψ@(axiom ∈Z)              = [ _ , Γ⊢ϕ ]
+cut Γ⊢ϕ ϕ,Γ⊢ψ@(axiom (∈S ψ∈Γ))        = [ _ , axiom ψ∈Γ ]
+cut Γ⊢ϕ ϕ,Γ⊢⊤@(⊤-intro ϕ,Γ⊢θ)         = [ _ , ⊤-intro (snd (cut Γ⊢ϕ ϕ,Γ⊢θ)) ]
+cut Γ⊢ϕ ϕ,Γ⊢α⊃β@(⊃-intro α,ϕ,Γ⊢β)     = [ _ , ⊃-intro α,Γ⊢β ] where
   α,Γ⊢ϕ   = struct (⊆-append ⊆-refl) Γ⊢ϕ
   ϕ,α,Γ⊢β = struct (⊆S (⊆S (⊆-append (⊆-append ⊆-refl)) ∈Z) (∈S ∈Z)) α,ϕ,Γ⊢β
   α,Γ⊢β   = snd (cut α,Γ⊢ϕ ϕ,α,Γ⊢β)
-cut Γ⊢ϕ ϕ,Γ⊢ψ@(⊃-elim ϕ,Γ⊢θ⊃ψ ϕ,Γ⊢θ) = [ _ , ⊃-elim Γ⊢θ⊃ψ Γ⊢θ ] where
-  Γ⊢θ⊃ψ   = snd (cut Γ⊢ϕ ϕ,Γ⊢θ⊃ψ)
-  Γ⊢θ     = snd (cut Γ⊢ϕ ϕ,Γ⊢θ)
+cut Γ⊢ϕ ϕ,Γ⊢ψ@(⊃-elim ϕ,Γ⊢θ⊃ψ ϕ,Γ⊢θ)  = [ _ , ⊃-elim (snd (cut Γ⊢ϕ ϕ,Γ⊢θ⊃ψ)) (snd (cut Γ⊢ϕ ϕ,Γ⊢θ)) ]
+cut Γ⊢ϕ ϕ,Γ⊢α∧β@(∧-intro ϕ,Γ⊢α ϕ,Γ⊢β) = [ _ , ∧-intro (snd (cut Γ⊢ϕ ϕ,Γ⊢α)) (snd (cut Γ⊢ϕ ϕ,Γ⊢β)) ]
