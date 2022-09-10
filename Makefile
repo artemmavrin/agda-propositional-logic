@@ -8,7 +8,7 @@ help:
 	@echo "  make clean    Remove all Agda artifacts."
 	@echo "  make help     Show this message and exit."
 
-check:
+check: clean
 	. scripts/everything.sh Everything
 	agda src/Everything.agda
 
