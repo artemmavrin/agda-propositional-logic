@@ -6,4 +6,5 @@ infixr 7 _⊃_
 
 data Formula {a : Level} (A : Type a) : Type a where
   ⌈_⌉ : A → Formula A
+  ⊤   : Formula A
   _⊃_ : Formula A → Formula A → Formula A

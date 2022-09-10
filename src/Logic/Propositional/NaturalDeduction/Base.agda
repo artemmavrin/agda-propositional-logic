@@ -28,6 +28,11 @@ data _⊢_[_] {a : Level} {A : Type a} : {n : ℕ} → Context A n → Formula A
       -----------
     → Γ ⊢ ϕ [ * ]
 
+  ⊤-intro :
+      Γ ⊢ ψ [ s ]
+      -----------
+    → Γ ⊢ ⊤ [ suc s ]
+
   ⊃-intro :
       ϕ , Γ ⊢ ψ [ s ]
       -------------------
