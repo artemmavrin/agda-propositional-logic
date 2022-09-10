@@ -16,3 +16,4 @@ clean:
 	rm -rf _build
 	rm -f src/Everything.agda
 	find . -name "*.agda~" -type f -delete
+	find . -name "*.agda#" -type f -delete
