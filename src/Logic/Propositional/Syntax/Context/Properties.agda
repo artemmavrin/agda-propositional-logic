@@ -31,3 +31,6 @@ private
 ⊆-refl : Γ ⊆ Γ
 ⊆-refl {Γ = *}     = ⊆Z
 ⊆-refl {Γ = _ , _} = ⊆-extend ⊆-refl
+
+⊆-swap : ϕ , ψ , Γ ⊆ ψ , ϕ , Γ
+⊆-swap = ⊆S (⊆S (⊆-append (⊆-append ⊆-refl)) ∈Z) (∈S ∈Z)

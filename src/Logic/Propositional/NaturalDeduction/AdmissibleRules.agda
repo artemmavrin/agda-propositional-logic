@@ -40,10 +40,9 @@ subst :
 subst Γ⊢ϕ ϕ,Γ⊢ψ@(axiom ∈Z)              = [ _ , Γ⊢ϕ ]
 subst Γ⊢ϕ ϕ,Γ⊢ψ@(axiom (∈S ψ∈Γ))        = [ _ , axiom ψ∈Γ ]
 subst Γ⊢ϕ ϕ,Γ⊢⊤@(⊤-intro ϕ,Γ⊢θ)         = [ _ , ⊤-intro (snd (subst Γ⊢ϕ ϕ,Γ⊢θ)) ]
-subst Γ⊢ϕ ϕ,Γ⊢α⊃β@(⊃-intro α,ϕ,Γ⊢β)     = [ _ , ⊃-intro α,Γ⊢β ] where
+subst Γ⊢ϕ ϕ,Γ⊢α⊃β@(⊃-intro α,ϕ,Γ⊢β)     = [ _ , ⊃-intro (snd (subst α,Γ⊢ϕ ϕ,α,Γ⊢β)) ] where
   α,Γ⊢ϕ   = struct (⊆-append ⊆-refl) Γ⊢ϕ
-  ϕ,α,Γ⊢β = struct (⊆S (⊆S (⊆-append (⊆-append ⊆-refl)) ∈Z) (∈S ∈Z)) α,ϕ,Γ⊢β
-  α,Γ⊢β   = snd (subst α,Γ⊢ϕ ϕ,α,Γ⊢β)
+  ϕ,α,Γ⊢β = struct ⊆-swap α,ϕ,Γ⊢β
 subst Γ⊢ϕ ϕ,Γ⊢ψ@(⊃-elim ϕ,Γ⊢θ⊃ψ ϕ,Γ⊢θ)  = [ _ , ⊃-elim (snd (subst Γ⊢ϕ ϕ,Γ⊢θ⊃ψ)) (snd (subst Γ⊢ϕ ϕ,Γ⊢θ)) ]
 subst Γ⊢ϕ ϕ,Γ⊢α∧β@(∧-intro ϕ,Γ⊢α ϕ,Γ⊢β) = [ _ , ∧-intro (snd (subst Γ⊢ϕ ϕ,Γ⊢α)) (snd (subst Γ⊢ϕ ϕ,Γ⊢β)) ]
 subst Γ⊢ϕ ϕ,Γ⊢α@(∧-elimˡ ϕ,Γ⊢α∧β)       = [ _ , ∧-elimˡ (snd (subst Γ⊢ϕ ϕ,Γ⊢α∧β)) ]
