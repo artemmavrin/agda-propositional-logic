@@ -18,7 +18,11 @@ private
     s t : Shape
 
 -- Structural rule, including weakening, contraction, and exchange
-struct : Γ ⊆ Δ → Γ ⊢ ϕ [ s ] → Δ ⊢ ϕ [ s ]
+struct :
+    Γ ⊆ Δ
+  → Γ ⊢ ϕ [ s ]
+    -----------
+  → Δ ⊢ ϕ [ s ]
 struct Γ⊆Δ Γ⊢ϕ@(axiom ϕ∈Γ)         = axiom (⊆-elim Γ⊆Δ ϕ∈Γ)
 struct Γ⊆Δ Γ⊢⊤@(⊤-intro Γ⊢ψ)       = ⊤-intro (struct Γ⊆Δ Γ⊢ψ)
 struct Γ⊆Δ Γ⊢ϕ⊃ψ@(⊃-intro ϕ,Γ⊢ψ)   = ⊃-intro (struct (⊆-extend Γ⊆Δ) ϕ,Γ⊢ψ)
@@ -28,7 +32,11 @@ struct Γ⊆Δ Γ⊢ϕ@(∧-elimˡ Γ⊢ϕ∧ψ)     = ∧-elimˡ (struct Γ⊆�
 struct Γ⊆Δ Γ⊢ψ@(∧-elimʳ Γ⊢ϕ∧ψ)     = ∧-elimʳ (struct Γ⊆Δ Γ⊢ϕ∧ψ)
 
 -- Substitution rule
-subst : Γ ⊢ ϕ [ s ] → ϕ , Γ ⊢ ψ [ t ] → Γ ⊢ ψ
+subst :
+    Γ ⊢ ϕ [ s ]
+  → ϕ , Γ ⊢ ψ [ t ]
+    ---------------
+  → Γ ⊢ ψ
 subst Γ⊢ϕ ϕ,Γ⊢ψ@(axiom ∈Z)              = [ _ , Γ⊢ϕ ]
 subst Γ⊢ϕ ϕ,Γ⊢ψ@(axiom (∈S ψ∈Γ))        = [ _ , axiom ψ∈Γ ]
 subst Γ⊢ϕ ϕ,Γ⊢⊤@(⊤-intro ϕ,Γ⊢θ)         = [ _ , ⊤-intro (snd (subst Γ⊢ϕ ϕ,Γ⊢θ)) ]
