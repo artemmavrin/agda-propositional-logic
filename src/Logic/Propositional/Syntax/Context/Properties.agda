@@ -11,9 +11,10 @@ private
     a : Level
     A : Type a
     ϕ ψ : Formula A
-    m n : ℕ
+    m n p : ℕ
     Γ : Context A m
     Δ : Context A n
+    Θ : Context A p
 
 ⊆-elim : Γ ⊆ Δ → ϕ ∈ Γ → ϕ ∈ Δ
 ⊆-elim (⊆S _ q) ∈Z     = q
@@ -31,6 +32,10 @@ private
 ⊆-refl : Γ ⊆ Γ
 ⊆-refl {Γ = *}     = ⊆Z
 ⊆-refl {Γ = _ , _} = ⊆-extend ⊆-refl
+
+⊆-trans : Γ ⊆ Δ → Δ ⊆ Θ → Γ ⊆ Θ
+⊆-trans ⊆Z       _ = ⊆Z
+⊆-trans (⊆S p q) r = ⊆S (⊆-trans p r) (⊆-elim r q)
 
 ⊆-swap : ϕ , ψ , Γ ⊆ ψ , ϕ , Γ
 ⊆-swap = ⊆S (⊆S (⊆-append (⊆-append ⊆-refl)) ∈Z) (∈S ∈Z)
