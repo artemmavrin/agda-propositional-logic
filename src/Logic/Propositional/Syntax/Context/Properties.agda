@@ -20,6 +20,10 @@ private
 ⊆-elim (⊆S _ q) ∈Z     = q
 ⊆-elim (⊆S p _) (∈S r) = ⊆-elim p r
 
+⊆-intro : (∀ {ϕ} → ϕ ∈ Γ → ϕ ∈ Δ) → Γ ⊆ Δ
+⊆-intro {Γ = *} _ = ⊆Z
+⊆-intro {Γ = ϕ , Γ} p = ⊆S (⊆-intro (λ q → p (∈S q))) (p ∈Z)
+
 ⊆-append : Γ ⊆ Δ → Γ ⊆ ϕ , Δ
 ⊆-append ⊆Z              = ⊆Z
 ⊆-append (⊆S ⊆Z r)       = ⊆S ⊆Z (∈S r)
