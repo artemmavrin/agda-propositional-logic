@@ -43,3 +43,7 @@ private
 
 ⊆-swap : ϕ , ψ , Γ ⊆ ψ , ϕ , Γ
 ⊆-swap = ⊆S (⊆S (⊆-append (⊆-append ⊆-refl)) ∈Z) (∈S ∈Z)
+
+⊑-implies-⊆ : Γ ⊑ Δ → Γ ⊆ Δ
+⊑-implies-⊆ ⊑Z = ⊆-refl
+⊑-implies-⊆ ⊑S = ⊆-append (⊆-refl)
