@@ -51,3 +51,7 @@ private
 ⊑-elim : Γ ⊑ Δ → ϕ ∈ Γ → ϕ ∈ Δ
 ⊑-elim ⊑Z p = p
 ⊑-elim ⊑S p = ∈S p
+
+private
+  ⊑-elim′ : Γ ⊑ Δ → ϕ ∈ Γ → ϕ ∈ Δ
+  ⊑-elim′ p = ⊆-elim (⊑-implies-⊆ p)
