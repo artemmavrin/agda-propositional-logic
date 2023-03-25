@@ -47,3 +47,7 @@ private
 ⊑-implies-⊆ : Γ ⊑ Δ → Γ ⊆ Δ
 ⊑-implies-⊆ ⊑Z = ⊆-refl
 ⊑-implies-⊆ ⊑S = ⊆-append (⊆-refl)
+
+⊑-elim : Γ ⊑ Δ → ϕ ∈ Γ → ϕ ∈ Δ
+⊑-elim ⊑Z p = p
+⊑-elim ⊑S p = ∈S p
