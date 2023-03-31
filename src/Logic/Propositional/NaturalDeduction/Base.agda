@@ -8,6 +8,8 @@ open import Logic.Propositional.Syntax
 
 infix 4 _⊢_ _⊢_[_]
 
+infixr 8 _⊕_
+
 data Shape : Type where
   * : Shape
   suc : Shape → Shape
@@ -18,9 +20,9 @@ private
     a : Level
     A : Type a
     n : ℕ
-    ϕ ψ : Formula A
+    ϕ ψ ξ : Formula A
     Γ : Context A n
-    s t : Shape
+    s t u : Shape
 
 data _⊢_[_] {a : Level} {A : Type a} : {n : ℕ} → Context A n → Formula A → Shape → Type a where
   axiom :
@@ -32,6 +34,22 @@ data _⊢_[_] {a : Level} {A : Type a} : {n : ℕ} → Context A n → Formula A
       -----------
       Γ ⊢ ⊤ [ * ]
 
+  ⊥-elim :
+      Γ ⊢ ⊥ [ s ]
+      ---------------
+    → Γ ⊢ ϕ [ suc s ]
+
+  ¬-intro :
+      ϕ , Γ ⊢ ⊥ [ s ]
+      -----------------
+    → Γ ⊢ ¬ ϕ [ suc s ]
+
+  ¬-elim :
+      Γ ⊢ ¬ ϕ [ s ]
+    → Γ ⊢ ϕ [ t ]
+      ---------------
+    → Γ ⊢ ⊥ [ s ⊕ t ]
+
   ⊃-intro :
       ϕ , Γ ⊢ ψ [ s ]
       -------------------
@@ -42,6 +60,23 @@ data _⊢_[_] {a : Level} {A : Type a} : {n : ℕ} → Context A n → Formula A
     → Γ ⊢ ϕ [ t ]
       ---------------
     → Γ ⊢ ψ [ s ⊕ t ]
+
+  ∨-introˡ :
+      Γ ⊢ ϕ [ s ]
+      -------------------
+    → Γ ⊢ ϕ ∨ ψ [ suc s ]
+
+  ∨-introʳ :
+      Γ ⊢ ψ [ s ]
+      -------------------
+    → Γ ⊢ ϕ ∨ ψ [ suc s ]
+
+  ∨-elim :
+      Γ ⊢ ϕ ∨ ψ [ s ]
+    → ϕ , Γ ⊢ ξ [ t ]
+    → ψ , Γ ⊢ ξ [ u ]
+      -------------------
+    → Γ ⊢ ξ [ s ⊕ t ⊕ u ]
 
   ∧-intro :
       Γ ⊢ ϕ [ s ]
