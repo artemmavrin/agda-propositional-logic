@@ -45,12 +45,12 @@ private
 ⊆-swap = ⊆S (⊆S (⊆-append (⊆-append ⊆-refl)) ∈Z) (∈S ∈Z)
 
 ⊑-implies-⊆ : Γ ⊑ Δ → Γ ⊆ Δ
-⊑-implies-⊆ ⊑Z = ⊆-refl
-⊑-implies-⊆ ⊑S = ⊆-append (⊆-refl)
+⊑-implies-⊆ ⊑Z     = ⊆-refl
+⊑-implies-⊆ (⊑S p) = ⊆-append (⊑-implies-⊆ p)
 
 ⊑-elim : Γ ⊑ Δ → ϕ ∈ Γ → ϕ ∈ Δ
-⊑-elim ⊑Z p = p
-⊑-elim ⊑S p = ∈S p
+⊑-elim ⊑Z     q = q
+⊑-elim (⊑S p) q = ∈S (⊑-elim p) q
 
 private
   ⊑-elim′ : Γ ⊑ Δ → ϕ ∈ Γ → ϕ ∈ Δ

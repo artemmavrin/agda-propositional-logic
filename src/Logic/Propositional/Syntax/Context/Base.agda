@@ -7,7 +7,7 @@ open import Logic.Propositional.Syntax.Formula
 
 infixr 6 _,_ _,,_
 infix 4 _∈_ _⊆_ _⊑_
-infixr 4 ∈S_
+infixr 4 ∈S_ ⊑S_
 
 private
   variable
@@ -35,7 +35,7 @@ data _⊆_ {a : Level} {A : Type a} : {m : ℕ} → Context A m → {n : ℕ} �
 
 data _⊑_ {a : Level} {A : Type a} : {m : ℕ} → Context A m → {n : ℕ} → Context A n → Type a where
   ⊑Z : Γ ⊑ Γ
-  ⊑S : Γ ⊑ ϕ , Γ
+  ⊑S_ : Γ ⊑ Δ → Γ ⊑ ϕ , Δ
 
 _,,_ : Context A m → Context A n → Context A (m + n)
 *       ,, Δ = Δ
