@@ -36,7 +36,7 @@ jobs:
 
     - name: checkout agda
       if: steps.cache-cabal.outputs.cache-hit != 'true'
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: agda/agda
         path: agda
@@ -52,7 +52,7 @@ jobs:
         cabal install --overwrite-policy=always --ghc-options='-O1 +RTS -M6G -RTS'
 
     - name: checkout agda-stdlib
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: agda/agda-stdlib
         path: agda-stdlib
@@ -65,7 +65,7 @@ jobs:
         echo "$GITHUB_WORKSPACE/agda-stdlib/standard-library.agda-lib" > ~/.agda/libraries
 
     - name: checkout this library
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         path: main
 
