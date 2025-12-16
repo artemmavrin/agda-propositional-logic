@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - name: cache cabal packages
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       id: cache-cabal
       with:
         path: |
@@ -70,7 +70,7 @@ jobs:
         path: main
 
     - name: cache this library
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       id: cache-main
       with:
         path: ~/main-build
